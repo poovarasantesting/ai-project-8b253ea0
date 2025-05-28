@@ -1,39 +1,14 @@
-import React from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { AuthProvider, useAuth } from './context/AuthContext';
-import LoginPage from './pages/LoginPage';
-import FeedPage from './pages/FeedPage';
-import { Toaster } from "./components/ui/toaster";
-
-// Protected route component
-const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
-  const { isAuthenticated } = useAuth();
-  
-  if (!isAuthenticated) {
-    return <Navigate to="/login" replace />;
-  }
-  
-  return <>{children}</>;
-};
+import { Toaster } from "@/components/ui/toaster";
+import { PostCreator } from "@/components/PostCreator";
 
 export default function App() {
   return (
-    <BrowserRouter>
-      <AuthProvider>
-        <Routes>
-          <Route path="/" element={<Navigate to="/login" replace />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route 
-            path="/feed" 
-            element={
-              <ProtectedRoute>
-                <FeedPage />
-              </ProtectedRoute>
-            } 
-          />
-        </Routes>
-        <Toaster />
-      </AuthProvider>
-    </BrowserRouter>
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-4">
+      <div className="container mx-auto py-10">
+        <h1 className="text-3xl font-bold mb-8 text-center">Social Media Post Creator</h1>
+        <PostCreator />
+      </div>
+      <Toaster />
+    </div>
   );
 }
